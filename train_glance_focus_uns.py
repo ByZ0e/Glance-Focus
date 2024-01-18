@@ -23,6 +23,7 @@ def parse_args():
                         help='where to store ckpts and logs')
     parser.add_argument("--name", type=str, default='gf_logs',
                         help='where to store ckpts and logs')
+    parser.add_argument('--device_id', default=0, type=int, help='device id')
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--nepoch", type=int, default=10, help='num of total epoches')
     parser.add_argument("--lr", type=float, default=5e-6)
@@ -340,8 +341,7 @@ def reload(model, optimizer, path):
 
 if __name__ == '__main__':
     args = parse_args()
-    device_id = 0
-    device = torch.device(f"cuda:{device_id}" if torch.cuda.is_available() else "cpu")
+    device = torch.device(f"cuda:{args.device_id}" if torch.cuda.is_available() else "cpu")
     args.device = device
     if args.test_only:
         print('test only!')
