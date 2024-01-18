@@ -168,7 +168,7 @@ class VideoQADataset(Dataset):
 
         grouped = defaultdict(list)  # examples grouped by image/video id
         for d in datalist:
-            grouped[d["vid_id"]].append(d)
+            grouped[d["question_id"]].append(d)
         print(f"grouped {len(grouped)}")
 
         # each group has a single image with multiple questions
