@@ -6,3 +6,6 @@ scipy
 torch
 tqdm
 transformers
+tensorboard
+tqdm
+opencv-python
