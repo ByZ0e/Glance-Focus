@@ -99,7 +99,7 @@ python train_glance_focus_sup.py --basedir expm/star --name gf_logs --device_id 
 --losses_type ['qa', 'cls', 'l1']
 ```
 ## Available checkpoints
-Supervised trained on STAR dataset. Download from [Google Drive](https://drive.google.com/file/d/11sI_iW_42yetN2U8WdwsdARmQPhdhQht/view?usp=sharing).
+Supervised trained on STAR dataset. Download from [Google Drive](https://drive.google.com/file/d/1oZHqHQI9rUCpKIwJQvVQf4sNyeu1E_Du/view?usp=sharing).
 
 ## Inference
 ```
