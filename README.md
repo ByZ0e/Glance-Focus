@@ -90,13 +90,13 @@ We support both **unsupervised** and **supervised** setting training, since some
 ```
 python train_glance_focus_uns.py --basedir expm/star --name gf_logs --device_id 0 --test_only 0 \
 --qa_dataset star --base_data_dir $DEFAULT_DATASET_DIR \
---losses_type ['qa', 'cls', 'giou', 'cert']
+--losses_type ['qa','cls','giou','cert']
 ```
 - supervised setting
 ```
 python train_glance_focus_sup.py --basedir expm/star --name gf_logs --device_id 0 --test_only 0 \
 --qa_dataset star --base_data_dir $DEFAULT_DATASET_DIR \
---losses_type ['qa', 'cls', 'l1']
+--losses_type ['qa','cls','l1']
 ```
 ## Available checkpoints
 Supervised trained on STAR dataset. Download from [Google Drive](https://drive.google.com/file/d/1oZHqHQI9rUCpKIwJQvVQf4sNyeu1E_Du/view?usp=sharing).
