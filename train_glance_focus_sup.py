@@ -52,7 +52,7 @@ def parse_args():
     parser.add_argument("--train_data_file_path", type=str, default='{}/txt_db/train.jsonl')
     parser.add_argument("--test_data_file_path", type=str, default='{}/txt_db/test.jsonl')
     parser.add_argument("--val_data_file_path", type=str, default='{}/txt_db/val.jsonl')
-    parser.add_argument('--event_anno_path', type=str, default='{}/txt_db/charades.json')
+    parser.add_argument('--event_anno_path', type=str, default='{}/txt_db/events.json')
     parser.add_argument('--action_mapping_file', type=str, default='{}/txt_db/action_mapping.txt')
     parser.add_argument('--app_feat_path', type=str, default='{}/vis_db/s3d.pth')
     parser.add_argument('--feature_dim', type=int, default=1024)
@@ -67,7 +67,7 @@ def parse_args():
                         help="Relative classification weight of the no-object class")
 
     # * Loss coefficients
-    parser.add_argument('--losses_type', default=['qa', 'cls', 'l1'], type=list)
+    parser.add_argument('--losses_type', default=['qa','cls','l1'], type=list)
     parser.add_argument('--qa_loss_coef', default=1, type=float)
     parser.add_argument('--cls_loss_coef', default=0.5, type=float)
     parser.add_argument('--l1_loss_coef', default=0.5, type=float)
