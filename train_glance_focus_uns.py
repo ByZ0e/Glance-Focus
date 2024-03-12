@@ -258,11 +258,19 @@ def test(args):
     criterion = SetCriterion_UNS(losses=args.losses_type, weight_dict=weight_dict)
     criterion.to(device)
 
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
+
+
+    reload_step = 0
+    if args.reload_model_path != '':
+        print('reloading model from', args.reload_model_path)
+        reload_step = reload(model=model, optimizer=optimizer, path=args.reload_model_path)
+
     test_loss, test_acc, results = validate(model, test_dataloader, criterion, args)
     TIMESTAMP = args.reload_model_path.split('/')[-2].split('_')[-1]
     if args.qa_dataset == 'star':  # write to submission file
         trans_results(results, os.path.join('/'.join(args.reload_model_path.split('/')[:3]), 'events', TIMESTAMP,
-                                            'submission_{}.json'.format(TIMESTAMP)))
+                                            'submission_{}_step{}.json'.format(TIMESTAMP, reload_step)))
     print('TEST ACC:', test_acc)
 
 
