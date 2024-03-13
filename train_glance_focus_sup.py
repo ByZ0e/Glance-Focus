@@ -40,7 +40,7 @@ def parse_args():
     parser.add_argument('--hidden_dim', type=int, default=512)
     parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--num_queries', type=int, default=10)
-    parser.add_argument('--event_pred_dim', type=int, default=50)
+    parser.add_argument('--event_pred_dim', type=int, default=111)
     parser.add_argument('--max_feats', type=int, default=80)
 
     # * Dataset
@@ -269,11 +269,19 @@ def test(args):
                                  eos_coef=args.eos_coef, event_pred_dim=args.event_pred_dim)
     criterion.to(device)
 
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
+
+
+    reload_step = 0
+    if args.reload_model_path != '':
+        print('reloading model from', args.reload_model_path)
+        reload_step = reload(model=model, optimizer=optimizer, path=args.reload_model_path)
+
     test_loss, test_acc, results = validate(model, test_dataloader, criterion, args)
     TIMESTAMP = args.reload_model_path.split('/')[-2].split('_')[-1]
     if args.qa_dataset == 'star':  # write to submission file
         trans_results(results, os.path.join('/'.join(args.reload_model_path.split('/')[:3]), 'events', TIMESTAMP,
-                                            'submission_{}.json'.format(TIMESTAMP)))
+                                            'submission_{}_step{}.json'.format(TIMESTAMP, reload_step)))
     print('TEST ACC:', test_acc)
 
 
