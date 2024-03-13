@@ -282,6 +282,9 @@ def test(args):
     if args.qa_dataset == 'star':  # write to submission file
         trans_results(results, os.path.join('/'.join(args.reload_model_path.split('/')[:3]), 'events', TIMESTAMP,
                                             'submission_{}_step{}.json'.format(TIMESTAMP, reload_step)))
+        print('write the results to the {}'.format(os.path.join('/'.join(args.reload_model_path.split('/')[:3]), 'events', TIMESTAMP,
+                                            'submission_{}_step{}.json'.format(TIMESTAMP, reload_step))))
+        return
     print('TEST ACC:', test_acc)
 
 
