@@ -40,7 +40,7 @@ def parse_args():
     parser.add_argument('--hidden_dim', type=int, default=512)
     parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--num_queries', type=int, default=10)
-    parser.add_argument('--event_pred_dim', type=int, default=50)
+    parser.add_argument('--event_pred_dim', type=int, default=111)
     parser.add_argument('--max_feats', type=int, default=80)
 
     # * Dataset
@@ -271,6 +271,9 @@ def test(args):
     if args.qa_dataset == 'star':  # write to submission file
         trans_results(results, os.path.join('/'.join(args.reload_model_path.split('/')[:3]), 'events', TIMESTAMP,
                                             'submission_{}_step{}.json'.format(TIMESTAMP, reload_step)))
+        print('write the results to the {}'.format(os.path.join('/'.join(args.reload_model_path.split('/')[:3]), 'events', TIMESTAMP,
+                                            'submission_{}_step{}.json'.format(TIMESTAMP, reload_step))))
+        return
     print('TEST ACC:', test_acc)
 
 
