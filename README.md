@@ -19,6 +19,10 @@ This repo contains source code for our NeurIPS 2023 paper:
 
 ![overview](https://github.com/ByZ0e/Glance-Focus/blob/main/overview.png)
 
+## Updates 🎉
+
+✅ AGQA v2 Benchmark Supported
+
 ## Prerequisites
 
 The project requires the following:
@@ -61,6 +65,21 @@ It should have the following structure:
 │  │  └── strID2numID.json
 ```
 
+We currently upload all necessary files for running on AGQA benchmark. You can download from [Google Drive](https://drive.google.com/file/d/1VQ1mE9bM3FkCNmBe5JafkoZYI0AaweNA/view?usp=sharing).
+
+It should have the following structure:
+```
+├── /AGQA/
+│  ├── /txt_db/
+│  │  ├── action_mapping.txt
+│  │  ├── charades.json
+│  │  ├── test_balanced.txt
+│  │  ├── train_balanced.txt
+│  │  └── agqa_balanced_txt_vocab.json
+│  ├── /vis_db/
+│  │  └── frcnn.pth
+```
+
 #### Option 2: Extract Features Using Provided Script
 
 If you wish to reproduce the data preprocessing and video feature extraction procedures.
@@ -98,6 +117,21 @@ python train_glance_focus_sup.py --basedir expm/star --name gf_logs --device_id 
 --qa_dataset star --base_data_dir $DEFAULT_DATASET_DIR \
 --losses_type ['qa','cls','l1']
 ```
+
+For AGQA benchmark, some parameters are different.
+```
+python train_glance_focus_sup.py --basedir expm/agqa --name gf_logs --device_id 0 --test_only 0 \
+--qa_dataset agqa --base_data_dir $DEFAULT_DATASET_DIR \
+--batch_size 128 --nepoch 20 --lr 5e-5 --i_test 9000 --i_weight 9000 --output_dim 157 \
+--train_data_file_path '{}/txt_db/train_balanced.txt'
+--test_data_file_path '{}/txt_db/test_balanced.txt'
+--event_anno_path '{}/txt_db/charades.json'
+--app_feat_path '{}/vis_db/frcnn.pth'
+--feature_dim 512
+--ans2label_path '{}/txt_db/agqa_balanced_txt_vocab.json'
+--losses_type ['qa','cls','l1']
+```
+
 ## Available checkpoints
 Supervised trained on STAR dataset. Download from [Google Drive](https://drive.google.com/file/d/1oZHqHQI9rUCpKIwJQvVQf4sNyeu1E_Du/view?usp=sharing).
 
