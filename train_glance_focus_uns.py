@@ -11,7 +11,7 @@ from model.transformer_gf import build_transformer
 from model.glance_focus import GF, SetCriterion_UNS
 import pdb
 
-OPEN_ENDED_QA = ["frameqa", "count", "msrvtt_qa", "msvd_qa", "ivqa", "nextqa_oe"]
+OPEN_ENDED_QA = ["agqa", "frameqa", "count", "msrvtt_qa", "msvd_qa", "ivqa", "nextqa_oe"]
 MULTI_CHOICE_QA = ["star", "action", "transition", "nextqa_mc"]
 
 
@@ -57,9 +57,10 @@ def parse_args():
     parser.add_argument('--app_feat_path', type=str, default='{}/vis_db/s3d.pth')
     parser.add_argument('--feature_dim', type=int, default=1024)
     parser.add_argument('--str2num_file', type=str, default='{}/vis_db/strID2numID.json')
+    parser.add_argument('--ans2label_path', type=str, default='{}/txt_db/agqa_balanced_txt_vocab.json')
 
     # * Loss coefficients
-    parser.add_argument('--losses_type', default=['qa','cls','giou','cert'], type=list)
+    parser.add_argument('--losses_type', default=['qa','cls','giou','cert'], type=list, nargs='+')
     parser.add_argument('--qa_loss_coef', default=1, type=float)
     parser.add_argument('--cls_loss_coef', default=0.5, type=float)
     parser.add_argument('--giou_loss_coef', default=0.5, type=float)
@@ -76,6 +77,8 @@ def forward_step(batch, args):
         batch["visual_inputs"] = torch.stack(repeat_tensor_rows(batch["visual_inputs"], repeat_counts)).to(args.device)
         batch['span_lst'] = repeat_tensor_rows(batch['span_lst'], repeat_counts)
         batch['hoi_lst'] = repeat_tensor_rows(batch['hoi_lst'], repeat_counts)
+    else:
+        batch["visual_inputs"] = torch.stack(batch["visual_inputs"]).to(args.device)
     batch['labels'] = batch['labels'].to(args.device)
     return batch
 
@@ -97,7 +100,8 @@ def train(args):
                                    args.str2num_file.format(args.base_data_dir),
                                    args.event_anno_path.format(args.base_data_dir),
                                    args.action_mapping_path.format(args.base_data_dir), args.max_feats,
-                                   num_queries=args.num_queries, is_train=True)
+                                   num_queries=args.num_queries, ans2label=args.ans2label_path.format(args.base_data_dir),
+                                   is_train=True)
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True,
                                   collate_fn=VideoQACollator(task_type=args.task_type).collate_batch)
 
@@ -235,7 +239,8 @@ def test(args):
                                   args.str2num_file.format(args.base_data_dir),
                                   args.event_anno_path.format(args.base_data_dir),
                                   args.action_mapping_path.format(args.base_data_dir), args.max_feats,
-                                  num_queries=args.num_queries, is_train=False, return_label=False)
+                                  num_queries=args.num_queries, ans2label=args.ans2label_path.format(args.base_data_dir),
+                                  is_train=False, return_label=False)
     test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False,
                                  collate_fn=VideoQACollator(task_type=args.task_type).collate_batch)
 
