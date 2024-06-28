@@ -22,6 +22,8 @@ This repo contains source code for our NeurIPS 2023 paper:
 ## Updates 🎉
 
 ✅ AGQA v2 Benchmark Supported
+✅ EgoTaskQA Benchmark Supported
+✅ NExT-QA Benchmark Supported
 
 ## Prerequisites
 
@@ -80,6 +82,32 @@ It should have the following structure:
 │  │  └── frcnn.pth
 ```
 
+We currently upload all necessary text files for running on EgoTaskQA benchmark. You can download from [Google Drive](https://drive.google.com/file/d/1n2u8Cd-yCJeltwuzMJkW-cSgPpiXzERr/view?usp=sharing).
+
+It should have the following structure:
+```
+├── /EgoTaskQA/
+│  ├── /txt_db/
+│  │  ├── hois_full_trans.json
+│  │  ├── events.json
+│  │  ├── formatted_train_qas_encode.json
+│  │  ├── formatted_val_qas_encode.json
+│  │  ├── formatted_test_qas_encode.json
+│  │  └── answer_set.txt
+```
+
+We currently upload all necessary text files for running on NExT-QA benchmark. You can download from [Google Drive](https://drive.google.com/file/d/1g5i6Di50WFsl5vgiNUlffcjqLRUX9TWs/view?usp=sharing).
+
+It should have the following structure:
+```
+├── /NExT-QA/
+│  ├── /txt_db/
+│  │  ├── train_mc.csv
+│  │  ├── val_mc.csv
+│  │  ├── test_mc.csv
+│  │  └── vocab.json
+```
+
 #### Option 2: Extract Features Using Provided Script
 
 If you wish to reproduce the data preprocessing and video feature extraction procedures.
@@ -118,7 +146,9 @@ python train_glance_focus_sup.py --basedir expm/star --name gf_logs --device_id 
 --losses_type ['qa','cls','l1']
 ```
 
-For AGQA benchmark, some parameters are different.
+For AGQA benchmark, some parameters are different. Note that AGQA do not have validation set, you may split it from training set by yourself.
+
+What's more, remember to change to the AGQA dataloader.
 ```
 python train_glance_focus_sup.py --basedir expm/agqa --name gf_logs --device_id 0 --test_only 0 \
 --qa_dataset agqa --base_data_dir $DEFAULT_DATASET_DIR \
@@ -131,6 +161,9 @@ python train_glance_focus_sup.py --basedir expm/agqa --name gf_logs --device_id 
 --ans2label_path '{}/txt_db/agqa_balanced_txt_vocab.json'
 --losses_type ['qa','cls','l1']
 ```
+
+For EgoTaskQA and NExT-QA, their data formats are slightly different. We release the corresponding data loaders we used.
+You may have to edit the data loading code.
 
 ## Available checkpoints
 Supervised trained on STAR dataset. Download from [Google Drive](https://drive.google.com/file/d/1oZHqHQI9rUCpKIwJQvVQf4sNyeu1E_Du/view?usp=sharing).
