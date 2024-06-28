@@ -22,7 +22,9 @@ This repo contains source code for our NeurIPS 2023 paper:
 ## Updates 🎉
 
 ✅ AGQA v2 Benchmark Supported
+
 ✅ EgoTaskQA Benchmark Supported
+
 ✅ NExT-QA Benchmark Supported
 
 ## Prerequisites
@@ -146,7 +148,9 @@ python train_glance_focus_sup.py --basedir expm/star --name gf_logs --device_id 
 --losses_type ['qa','cls','l1']
 ```
 
-For AGQA benchmark, some parameters are different. Note that AGQA do not have validation set, you may split it from training set by yourself.
+For AGQA benchmark, some parameters are different.
+
+Note that AGQA do not have validation set, you may split it from training set by yourself.
 
 What's more, remember to change to the AGQA dataloader.
 ```
@@ -162,7 +166,10 @@ python train_glance_focus_sup.py --basedir expm/agqa --name gf_logs --device_id 
 --losses_type ['qa','cls','l1']
 ```
 
-For EgoTaskQA and NExT-QA, their data formats are slightly different. We release the corresponding data loaders we used.
+For EgoTaskQA and NExT-QA benchmarks, their data formats are slightly different from STAR and AGQA. 
+
+We release the corresponding data loaders we used.
+
 You may have to edit the data loading code.
 
 ## Available checkpoints
